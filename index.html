@@ -3,192 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ogurecs's setup</title>
+    <title>ogurecs's setup // terminal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Основные цвета */
-            --bg-start: #1a1a1a;
-            --bg-end: #121212;
-            --card-bg: #262626;
-            --card-bg-hover: #2a2a2a;
-            --text-main: #eaeaea;
-            --text-dim: #a0a0a0;
-            /* Акцентный градиент на основе мятного цвета */
-            --accent-color: #95c2a6;
-            --accent-gradient: linear-gradient(135deg, #95c2a6, #6fa38c);
+            --bg-base: #0a0a0a;
+            --bg-card: #141414;
+            --bg-card-hover: #1c1c1c;
+            --text-main: #e0e0e0;
+            --text-dim: #666;
+            --accent: #95c2a6;
+            --accent-glow: rgba(149, 194, 166, 0.3);
+            --scanline: rgba(255, 255, 255, 0.03);
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Courier New', Courier, monospace;
-            /* Тонкий темный градиент на фон для глубины */
-            background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-base);
             color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-            line-height: 1.5;
+            line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Текстура шума и сканлайны */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3e%3cfilter id='noiseFilter'%3e%3cturbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3e%3c/filter%3e%3crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3e%3c/svg%3e");
+            opacity: 0.05;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, var(--scanline) 50%);
+            background-size: 100% 4px;
+            z-index: 101;
+            pointer-events: none;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
         }
 
         header {
-            text-align: center;
-            margin-bottom: 40px;
-            margin-top: 40px;
+            margin-bottom: 60px;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
         }
 
         h1 {
-            font-weight: 900;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 800;
             letter-spacing: -1px;
-            margin: 0;
-            font-size: 2.5rem;
-            text-transform: lowercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* Градиентный текст для никнейма */
-        .nickname-gradient {
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .cursor {
+            width: 12px;
+            height: 24px;
+            background: var(--accent);
             display: inline-block;
+            animation: blink 1s infinite;
         }
 
-        /* Стили для картинки с легким свечением */
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .setup-image-container {
+            position: relative;
+            margin-bottom: 60px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+        }
+
         .setup-image {
             width: 100%;
             height: auto;
-            border-radius: 16px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 20px rgba(149, 194, 166, 0.1);
-            border: 3px solid var(--card-bg);
-            margin-bottom: 50px;
-            object-fit: cover;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: block;
+            transition: transform 0.5s ease, filter 0.5s ease;
+            filter: grayscale(0.2);
         }
 
-        .setup-image:hover {
-             transform: scale(1.01);
-             box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 30px rgba(149, 194, 166, 0.2);
+        .setup-image-container:hover .setup-image {
+            transform: scale(1.05);
+            filter: grayscale(0);
+        }
+
+        /* Глитч-эффект на картинке */
+        .setup-image-container::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--accent);
+            mix-blend-mode: overlay;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .setup-image-container:hover::after {
+            opacity: 0.1;
         }
 
         h2 {
-            position: relative;
-            padding-bottom: 15px;
-            margin-top: 50px;
-            margin-bottom: 25px;
-            font-size: 1.4rem;
-            color: var(--text-main);
+            font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: bold;
+            letter-spacing: 4px;
+            color: var(--text-dim);
+            margin: 40px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        /* Градиентная линия под заголовками */
         h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: var(--accent-gradient);
-            border-radius: 2px;
+            content: "";
+            height: 1px;
+            flex-grow: 1;
+            background: linear-gradient(to right, var(--text-dim), transparent);
         }
 
         .specs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
         }
 
-        /* Продвинутые стили карточек */
         .spec-card {
-            background: var(--card-bg);
+            background: var(--bg-card);
             padding: 20px;
-            border-radius: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            z-index: 1;
-            overflow: hidden; /* Чтобы градиентная рамка не вылезала */
-            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, background 0.3s ease;
-            border: 1px solid transparent; /* Резерв для рамки */
+            overflow: hidden;
         }
 
-        /* Создаем градиентную рамку через псевдоэлемент под карточкой */
-        .spec-card::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: var(--accent-gradient);
-            z-index: -2;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            border-radius: inherit;
-        }
-        
-        /* Внутренний фон карточки, чтобы перекрыть центр градиента */
-        .spec-card::after {
-             content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--card-bg);
-            z-index: -1;
-            border-radius: 10px; /* Чуть меньше родителя */
-            transition: background 0.3s ease;
-        }
-
-
-        /* Эффекты при наведении на карточку */
         .spec-card:hover {
-            transform: translateY(-7px) scale(1.02);
-            box-shadow: 0 15px 30px -10px rgba(149, 194, 166, 0.3);
+            background: var(--bg-card-hover);
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px -10px var(--accent-glow);
         }
-
-        .spec-card:hover::before {
-            opacity: 1; /* Показываем градиентную рамку */
-        }
-        
-         .spec-card:hover::after {
-            background: var(--card-bg-hover); /* Чуть светлее фон внутри */
-        }
-
 
         .spec-name {
-            display: block;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
+            color: var(--accent);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-dim);
-            margin-bottom: 8px;
-            transition: color 0.3s ease;
-        }
-
-        /* При наведении на карточку, название подсвечивается цветом */
-        .spec-card:hover .spec-name {
-            color: var(--accent-color);
+            margin-bottom: 6px;
+            display: block;
+            font-weight: 800;
         }
 
         .spec-value {
-            font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
+            color: var(--text-main);
             display: block;
-            transition: text-shadow 0.3s ease, color 0.3s ease;
-        }
-        
-        /* Легкое свечение текста значения при наведении */
-        .spec-card:hover .spec-value {
-             text-shadow: 0 0 10px rgba(149, 194, 166, 0.4);
-             color: #fff;
         }
 
         footer {
+            margin-top: 100px;
             text-align: center;
-            margin-top: 80px;
-            margin-bottom: 40px;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.7rem;
             color: var(--text-dim);
-            font-size: 0.8rem;
-            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            header { margin-bottom: 40px; }
+            h1 { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -196,75 +213,96 @@
 
     <div class="container">
         <header>
-            <h1><span class="nickname-gradient">ogurecs's</span> setup</h1>
+            <h1 id="typing-header"><span style="color: var(--accent)">></span> <span id="header-text"></span><span class="cursor"></span></h1>
         </header>
 
-        <img src="1.jpg" alt="мой сетап" class="setup-image">
+        <div class="setup-image-container">
+            <img src="1.jpg" alt="setup showcase" class="setup-image">
+        </div>
 
         <section>
-            <h2>PC</h2>
+            <h2>[ system.pc ]</h2>
             <div class="specs-grid">
                 <div class="spec-card">
-                    <span class="spec-name">cpu</span>
-                    <span class="spec-value">ryzen 5 7600</span>
+                    <span class="spec-name">processor</span>
+                    <span class="spec-value">AMD Ryzen 5 7600</span>
                 </div>
                 <div class="spec-card">
-                    <span class="spec-name">gpu</span>
-                    <span class="spec-value">rx 6800 xt sapphire nitro+</span>
+                    <span class="spec-name">graphics</span>
+                    <span class="spec-value">RX 6800 XT Sapphire Nitro+</span>
                 </div>
                 <div class="spec-card">
-                    <span class="spec-name">ram</span>
-                    <span class="spec-value">32gb ddr5 (5200mhz)</span>
+                    <span class="spec-name">memory</span>
+                    <span class="spec-value">32GB DDR5 @ 5200MHz</span>
                 </div>
                 <div class="spec-card">
-                    <span class="spec-name">motherboard</span>
-                    <span class="spec-value">asus rog strix b650e-i</span>
+                    <span class="spec-name">board</span>
+                    <span class="spec-value">ASUS ROG Strix B650E-I</span>
                 </div>
                 <div class="spec-card">
-                    <span class="spec-name">storage</span>
-                    <span class="spec-value">kingston nv3 1tb + samsung 870 1tb</span>
+                    <span class="spec-name">drive_01</span>
+                    <span class="spec-value">Kingston NV3 1TB</span>
                 </div>
                 <div class="spec-card">
-                    <span class="spec-name">psu</span>
-                    <span class="spec-value">thermaltake 750w bronze</span>
+                    <span class="spec-name">drive_02</span>
+                    <span class="spec-value">Samsung 870 1TB</span>
+                </div>
+                <div class="spec-card">
+                    <span class="spec-name">power</span>
+                    <span class="spec-value">Thermaltake 750W Bronze</span>
                 </div>
             </div>
         </section>
 
         <section>
-            <h2>setup</h2>
+            <h2>[ system.io ]</h2>
             <div class="specs-grid">
                 <div class="spec-card">
-                    <span class="spec-name">monitor</span>
-                    <span class="spec-value">xiaomi mi curved gaming 34"</span>
+                    <span class="spec-name">display</span>
+                    <span class="spec-value">Xiaomi Mi Curved 34"</span>
                 </div>
                 <div class="spec-card">
-                    <span class="spec-name">keyboard</span>
-                    <span class="spec-value">ajazz ak820 max (magnetic/screen)</span>
+                    <span class="spec-name">keys</span>
+                    <span class="spec-value">Ajazz AK820 Max</span>
                 </div>
                 <div class="spec-card">
-                    <span class="spec-name">mouse</span>
-                    <span class="spec-value">ajazz aj159 pro</span>
+                    <span class="spec-name">pointer</span>
+                    <span class="spec-value">Ajazz AJ159 Pro</span>
                 </div>
                 <div class="spec-card">
-                    <span class="spec-name">microphone</span>
-                    <span class="spec-value">fifine am8 + bm88 arm</span>
+                    <span class="spec-name">input</span>
+                    <span class="spec-value">Fifine AM8 + BM88</span>
                 </div>
                 <div class="spec-card">
-                    <span class="spec-name">audio</span>
-                    <span class="spec-value">simgot ea500</span>
+                    <span class="spec-name">output</span>
+                    <span class="spec-value">Simgot EA500</span>
                 </div>
                 <div class="spec-card">
-                    <span class="spec-name">mousepad</span>
-                    <span class="spec-value">ordinary mousepad</span>
+                    <span class="spec-name">surface</span>
+                    <span class="spec-value">Ordinary Mousepad</span>
                 </div>
             </div>
         </section>
 
         <footer>
-            2026 // by ogurecs
+            <span class="status-dot"></span> system_stable // 2026 // waydef
         </footer>
     </div>
 
+    <script>
+        const text = "ogurecs@setup:~# spec --list";
+        const headerElement = document.getElementById('header-text');
+        let i = 0;
+
+        function type() {
+            if (i < text.length) {
+                headerElement.textContent += text.charAt(i);
+                i++;
+                setTimeout(type, 50 + Math.random() * 50);
+            }
+        }
+
+        window.onload = type;
+    </script>
 </body>
 </html>
