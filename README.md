@@ -1,16 +1,18 @@
 # setup
 
-персональный терминальный дашборд со спецификациями основного пк и периферии. оформлен в стиле ретро-терминала на моноширинном шрифте jetbrains mono с легким эффектом шума (crt scanlines) и симуляцией ввода команд.
+Personal terminal dashboard showing specifications of the main PC and peripherals. Designed in a retro terminal style using JetBrains Mono font, a subtle CRT scanline effect, and a command input simulation.
 
-## конфиг
+Check out the live page at https://waydef.github.io/setup/
 
-- железо: amd ryzen 5 7600, radeon rx 6800 xt sapphire nitro+, 32gb ddr5, asus rog strix b650e-i, 2tb nvme/ssd.
-- монитор: xiaomi mi curved 34" (ультраширокий, 21:9).
-- устройства: клавиатура ajazz ak820 max, мышь ajazz aj159 pro, микрофон fifine am8.
+## config
 
-## фичи интерфейса
+- hardware: AMD Ryzen 5 7600, Radeon RX 6800 XT Sapphire Nitro+, 32GB DDR5, ASUS ROG Strix B650E-I, 2TB NVMe/SSD.
+- monitor: Xiaomi Mi Curved 34" (ultrawide, 21:9).
+- peripherals: Ajazz AK820 Max keyboard, Ajazz AJ159 Pro mouse, Fifine AM8 microphone.
 
-- дизайн: ретро-терминал с анимацией бегущей строки (симуляция набора команды `root@setup:~# spec --list`).
-- текстуры: наложенный svg-шум и сканлайны для атмосферы олдскульных мониторов.
-- карточки: адаптивная сетка спецификаций с мягким свечением при наведении и плавным сдвигом.
-- кастомные шрифты: jetbrains mono для всех надписей.
+## interface features
+
+- design: retro terminal with running command animation (simulating `root@setup:~# spec --list` input).
+- textures: overlay SVG noise and scanlines for a CRT monitor feel.
+- cards: responsive grid for specs with hover glow and subtle shift effects.
+- custom typography: JetBrains Mono font used throughout the dashboard.
