@@ -12,6 +12,6 @@ check the live page: https://waydef.github.io/setup/
 
 ## interface details
 
-- command animation: simulates typing `root@setup:~# spec --list` on page load.
+- command animation: simulates typing `root@arch:~# spec --list` on page load.
 - styling effects: uses svg noise filters and dark grid cards that glow slightly on hover.
 - font: rendered in JetBrains Mono.
