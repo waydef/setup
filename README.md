@@ -8,7 +8,7 @@ check the live page: https://waydef.github.io/setup/
 
 - components: AMD Ryzen 5 7600, Radeon RX 6800 XT Sapphire Nitro+, 32GB DDR5, ASUS ROG Strix B650E-I, 2TB NVMe/SSD storage.
 - screen: Xiaomi Mi Curved 34" ultrawide monitor.
-- desktop items: Custom Ajazz AK820 Max keyboard, Ajazz AJ159 Pro mouse, Fifine AM8 microphone, Xbox Elite Series 2 controller.
+- desktop items: Custom Ajazz AK820 Max HE keyboard, Ajazz AJ159 Pro mouse, Fifine AM8 microphone, Simgot EA500 IEMs, Nothing Ear (2024), Xbox Elite Series 2 controller.
 
 ## interface details
 
