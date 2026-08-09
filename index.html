@@ -39,25 +39,6 @@
             position: relative;
         }
 
-        .scanlines {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 99;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-            background-size: 100% 4px;
-            opacity: 0.5;
-        }
-
-        .grain {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 98;
-            opacity: 0.035;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        }
-
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -157,13 +138,11 @@
             width: 100%;
             height: auto;
             display: block;
-            transition: transform 0.5s ease, filter 0.5s ease;
-            filter: grayscale(0.2);
+            transition: transform 0.5s ease;
         }
 
         .setup-image-container:hover .setup-image {
             transform: scale(1.03);
-            filter: grayscale(0);
         }
 
         h2 {
@@ -242,9 +221,6 @@
     </style>
 </head>
 <body>
-    <div class="scanlines"></div>
-    <div class="grain"></div>
-
     <div class="container">
         <div class="nav-bar">
             <div class="status">
