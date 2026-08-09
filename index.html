@@ -4,20 +4,27 @@
     <meta charset="UTF-8">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>system // terminal</title>
+    <title>spec.ogurecs.space // setup</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-base: #0a0a0a;
-            --bg-card: #141414;
-            --bg-card-hover: #1c1c1c;
-            --text-main: #e0e0e0;
-            --text-dim: #666;
-            --accent: #95c2a6;
-            --accent-glow: rgba(149, 194, 166, 0.3);
-            --scanline: rgba(255, 255, 255, 0.03);
+            --bg-base: #090c12;
+            --bg-card: #111622;
+            --bg-card-hover: #171e2e;
+            --text-main: #e2e8f0;
+            --text-dim: #64748b;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.15);
+            --border: rgba(255, 255, 255, 0.07);
+            --border-hover: rgba(56, 189, 248, 0.35);
+        }
+
+        body.warm {
+            --accent: #fb923c;
+            --accent-glow: rgba(251, 146, 60, 0.18);
+            --border-hover: rgba(251, 146, 60, 0.4);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,25 +39,23 @@
             position: relative;
         }
 
-        /* noise texture and scanlines */
-        body::before {
-            content: "";
+        .scanlines {
             position: fixed;
             inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3e%3cfilter id='noiseFilter'%3e%3cturbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3e%3c/filter%3e%3crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3e%3c/svg%3e");
-            opacity: 0.05;
-            z-index: 100;
             pointer-events: none;
+            z-index: 99;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            opacity: 0.5;
         }
 
-        body::after {
-            content: "";
+        .grain {
             position: fixed;
             inset: 0;
-            background: linear-gradient(to bottom, transparent 50%, var(--scanline) 50%);
-            background-size: 100% 4px;
-            z-index: 101;
             pointer-events: none;
+            z-index: 98;
+            opacity: 0.035;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
         .container {
@@ -61,14 +66,65 @@
             z-index: 10;
         }
 
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 40px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent);
+        }
+
+        .back-link {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-main);
+        }
+
         header {
-            margin-bottom: 60px;
-            border-left: 4px solid var(--accent);
+            margin-bottom: 50px;
+            border-left: 3px solid var(--accent);
             padding-left: 20px;
+            transition: border-color 0.3s ease;
         }
 
         h1 {
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-size: clamp(1.4rem, 4vw, 2.2rem);
             font-weight: 800;
             letter-spacing: -1px;
             display: flex;
@@ -77,8 +133,8 @@
         }
 
         .cursor {
-            width: 12px;
-            height: 24px;
+            width: 10px;
+            height: 22px;
             background: var(--accent);
             display: inline-block;
             animation: blink 1s infinite;
@@ -90,10 +146,11 @@
 
         .setup-image-container {
             position: relative;
-            margin-bottom: 60px;
-            border-radius: 12px;
+            margin-bottom: 50px;
+            border-radius: 10px;
             overflow: hidden;
             background: #000;
+            border: 1px solid var(--border);
         }
 
         .setup-image {
@@ -105,29 +162,13 @@
         }
 
         .setup-image-container:hover .setup-image {
-            transform: scale(1.05);
+            transform: scale(1.03);
             filter: grayscale(0);
         }
 
-        /* glitch effect on hover */
-        .setup-image-container::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: var(--accent);
-            mix-blend-mode: overlay;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .setup-image-container:hover::after {
-            opacity: 0.1;
-        }
-
         h2 {
-            font-size: 0.9rem;
-            letter-spacing: 4px;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
             color: var(--text-dim);
             margin: 40px 0 20px;
             display: flex;
@@ -144,7 +185,7 @@
 
         .specs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 15px;
         }
 
@@ -152,16 +193,16 @@
             background: var(--bg-card);
             padding: 20px;
             border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
 
         .spec-card:hover {
             background: var(--bg-card-hover);
-            border-color: var(--accent);
-            transform: translateY(-4px);
+            border-color: var(--border-hover);
+            transform: translateY(-3px);
             box-shadow: 0 10px 30px -10px var(--accent-glow);
         }
 
@@ -171,45 +212,47 @@
             margin-bottom: 6px;
             display: block;
             font-weight: 800;
+            transition: color 0.3s ease;
         }
 
         .spec-value {
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             color: var(--text-main);
             display: block;
         }
 
         footer {
-            margin-top: 100px;
+            margin-top: 80px;
             text-align: center;
-            padding: 40px 0;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            font-size: 0.7rem;
+            padding: 30px 0;
+            border-top: 1px solid var(--border);
+            font-size: 0.75rem;
             color: var(--text-dim);
             letter-spacing: 2px;
+            display: flex;
+            justify-content: space-between;
         }
 
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
-            box-shadow: 0 0 10px var(--accent);
-        }
-
-        /* mobile adjustments */
         @media (max-width: 600px) {
-            .container { padding: 20px; }
-            header { margin-bottom: 40px; }
-            h1 { font-size: 1.2rem; }
+            .container { padding: 20px 15px; }
+            header { margin-bottom: 30px; }
+            h1 { font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
+    <div class="scanlines"></div>
+    <div class="grain"></div>
 
     <div class="container">
+        <div class="nav-bar">
+            <div class="status">
+                <span class="dot"></span>
+                <a href="https://ogurecs.space" class="back-link">&larr; ogurecs.space</a>
+            </div>
+            <button class="toggle-btn" id="toggle">#noquotes</button>
+        </div>
+
         <header>
             <h1 id="typing-header"><span style="color: var(--accent)">></span> <span id="header-text"></span><span class="cursor"></span></h1>
         </header>
@@ -295,7 +338,8 @@
         </section>
 
         <footer>
-            2026
+            <span>2026</span>
+            <span>spec.ogurecs.space</span>
         </footer>
     </div>
 
@@ -313,6 +357,10 @@
         }
 
         window.onload = type;
+
+        document.getElementById('toggle').addEventListener('click', () => {
+            document.body.classList.toggle('warm');
+        });
     </script>
 </body>
 </html>
